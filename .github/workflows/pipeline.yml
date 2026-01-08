@@ -17,9 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: Production
 
-    outputs:
-      rds_endpoint: ${{ steps.terraform_outputs.outputs.rds_endpoint }}
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -35,11 +32,11 @@ jobs:
       uses: hashicorp/setup-terraform@v3
 
     - name: Terraform Init
-      run: terraform -chdir=infra init
+      run: terraform -chdir=./infra init
 
     - name: Terraform Plan
-      run: terraform -chdir=infra plan
+      run: terraform -chdir=./infra plan
 
     - name: Terraform Apply
       id: apply # <-- Dê um ID a este passo para referência futura
-      run: terraform -chdir=infra apply -auto-approve
+      run: terraform -chdir=./infra apply -auto-approve
