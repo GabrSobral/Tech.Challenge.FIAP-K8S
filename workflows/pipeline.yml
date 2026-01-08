@@ -1,0 +1,46 @@
+﻿name: CI/CD Building Kubernetes Infrastructure with Terraform
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+      
+jobs:
+  #---------------------------------------------
+  # Job 1: Provisionamento da Infraestrutura com Terraform
+  #---------------------------------------------
+  deploy-infra:
+    name: Deploy Infrastructure with Terraform
+    runs-on: ubuntu-latest
+    needs: build-and-push # Não precisa depender, pode rodar em paralelo
+    environment: Production
+
+    outputs:
+      rds_endpoint: ${{ steps.terraform_outputs.outputs.rds_endpoint }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ vars.AWS_REGION }}
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Terraform Init
+      run: terraform -chdir=infra init
+
+    - name: Terraform Plan
+      run: terraform -chdir=infra plan
+
+    - name: Terraform Apply
+      id: apply # <-- Dê um ID a este passo para referência futura
+      run: terraform -chdir=infra apply -auto-approve
