@@ -32,11 +32,11 @@ jobs:
       uses: hashicorp/setup-terraform@v3
 
     - name: Terraform Init
-      run: terraform -chdir=./infra init
+      run: terraform init
 
     - name: Terraform Plan
-      run: terraform -chdir=./infra plan
+      run: terraform plan
 
     - name: Terraform Apply
       id: apply # <-- Dê um ID a este passo para referência futura
-      run: terraform -chdir=./infra apply -auto-approve
+      run: terraform apply -auto-approve
