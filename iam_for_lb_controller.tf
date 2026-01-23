@@ -1,6 +1,6 @@
 # 1. Baixa o conteúdo da política IAM oficial do repositório da AWS
 data "http" "lb_controller_iam_policy" {
-  url = "https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.1/docs/install/iam_policy.json"
+  url = "https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json"
 }
 
 # 2. Cria a política IAM na sua conta AWS usando o conteúdo baixado

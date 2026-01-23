@@ -10,6 +10,12 @@ variable "project_name" {
   default     = "tech-challenge"
 }
 
+variable "new_relic_license_key" {
+  description = "Chave de licença de Ingestão do New Relic"
+  type        = string
+  sensitive   = true  # Isso impede que a chave apareça nos logs do terminal
+}
+
 variable "vpc_cidr" {
   description = "The CIDR block for the VPC"
   type        = string
@@ -19,5 +25,5 @@ variable "vpc_cidr" {
 variable "instance_type" {
   description = "EC2 instance type for the EKS worker nodes"
   type        = string
-  default     = "t3.micro"
+  default     = "t3.small"
 }
