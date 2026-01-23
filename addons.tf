@@ -45,3 +45,30 @@ resource "helm_release" "aws_load_balancer_controller" {
     }
   ]
 }
+
+resource "helm_release" "newrelic" {
+  name       = "newrelic-bundle"
+  repository = "https://helm-charts.newrelic.com"
+  chart      = "nri-bundle"
+  namespace  = "newrelic"
+  create_namespace = true
+
+  set = [
+    {
+      name  = "global.licenseKey"
+      value = var.new_relic_license_key # Use variável, não hardcode!
+    },
+    {
+      name  = "global.cluster"
+      value = "TechChallenge-Cluster"
+    },
+    {
+      name  = "kubeEvents.enabled"
+      value = "true"
+    },
+    {
+      name  = "logging.enabled"
+      value = "true"
+    }
+  ]
+}

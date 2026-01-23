@@ -36,7 +36,12 @@ jobs:
 
     - name: Terraform Plan
       run: terraform plan
+      env:
+        # O Terraform converte TF_VAR_nome_da_var para var.nome_da_var
+        TF_VAR_new_relic_license_key: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
 
     - name: Terraform Apply
       id: apply # <-- Dê um ID a este passo para referência futura
       run: terraform apply -auto-approve
+      env:
+        TF_VAR_new_relic_license_key: ${{ secrets.NEW_RELIC_LICENSE_KEY }}
